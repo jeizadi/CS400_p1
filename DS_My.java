@@ -1,7 +1,7 @@
 
 public class DS_My implements DataStructureADT {
 
-	private Pair first; //marks the first Pair in the list
+	private Pair first; //marks the first pair in the list
 	
     public DS_My() {
     	first = null;
@@ -11,16 +11,15 @@ public class DS_My implements DataStructureADT {
     public void insert(Comparable k, Object v) {
     	Pair current = first;
     	if(k == null) throw new IllegalArgumentException("null key"); //check if key is null
+    	if(this.contains(k)) throw new RuntimeException("duplicate key");
     	if(current == null) {
     		first = new Pair(k, v);
     	}
     	else {
-    		while(current.getNext() != null) {
-    			if(current.getKey().compareTo(k) == 0) throw new RuntimeException("duplicate key"); //checks for duplicate keys
-    			current = current.getNext();
+    		while(current.next != null) {
+    			current = current.next;
     		}
-    		if(current.getKey().compareTo(k) == 0) throw new RuntimeException("duplicate key");
-    		else current.setNext(new Pair(k,v));
+    		current.setNext(new Pair(k,v));
     	}
     }
 
@@ -28,18 +27,17 @@ public class DS_My implements DataStructureADT {
     public boolean remove(Comparable k) {
     	if(k == null) throw new IllegalArgumentException("null key");
     	Pair current = first;
-    	while(current.getNext() != null && current.getNext().getKey().compareTo(k) != 0) {
-    			current = current.getNext();
+    	while(current.next != null && current.next.key.compareTo(k) != 0) {
+    			current = current.next;
     	}
-    	if(current.getNext() == null && current.getKey().compareTo(k) == 0) {
-    		first = null;
-    		return true;
+    	if(current.next == null && current.key.compareTo(k) == 0) {
+    		current = null;
     	}
-    	else if(current.getNext() == null && current.getKey().compareTo(k) != 0) {
+    	else if(current.next == null && current.key.compareTo(k) != 0) {
     		return false;
     	}
-    	else if(current.getNext().getKey().compareTo(k) == 0) {
-    		Pair after = current.getNext().getNext();
+    	else if(current.next.key.compareTo(k) == 0) {
+    		Pair after = current.next.next;
     		current.setNext(after);
     		return true;
     	}
@@ -52,13 +50,12 @@ public class DS_My implements DataStructureADT {
     	//return true if one does otherwise return false
     	Pair current = first;
     	if(k == null) throw new IllegalArgumentException("null key"); //check to see if the key given is null
-    	while(current.getNext() != null) { //iterate through list 
-    		if(current.getKey().compareTo(k) == 0) { //check keys to see if they are equal to k
+    	while(current != null) { //iterate through list 
+    		if(current.key.compareTo(k) == 0) { //check keys to see if they are equal to k
     			return true;
     		}
-    		current = current.getNext(); 
+    		current = current.next; 
     	}
-    	if(current.getKey().compareTo(k) == 0) return true; //check end cases
         return false;
     }
 
@@ -66,13 +63,13 @@ public class DS_My implements DataStructureADT {
     public Object get(Comparable k) {
     	Pair current = first;
     	if(k == null) throw new IllegalArgumentException("null key"); //check to see if the key given is null
-    	while(current.getNext() != null) {
-    		if(current.getKey().compareTo(k) == 0) { //check keys to see if they are equal to k
-    			return current.getValue();
+    	while(current.next != null) {
+    		if(current.key.compareTo(k) == 0) { //check keys to see if they are equal to k
+    			return current.value;
     		}
-    		current = current.getNext(); 
+    		current = current.next; 
     	}
-    	if(current.getKey().compareTo(k) == 0) return current.getValue(); //check end cases
+    	if(current.key.compareTo(k) == 0) return current.value; //check end cases
         return null;
     }
 
@@ -82,7 +79,7 @@ public class DS_My implements DataStructureADT {
     	int size = 0;
         while(current != null) {
         	size++;
-        	current = current.getNext();
+        	current = current.next;
         }
         return size;
     }
@@ -102,18 +99,6 @@ public class DS_My implements DataStructureADT {
     	private Pair(Comparable key, Object value) {
     		this.key = key;
     		this.value = value;
-    	}
-    	
-    	private Comparable getKey() {
-    		return key;
-    	}
-    	
-    	private Object getValue() {
-    		return value;
-    	}
-    	
-    	private Pair getNext() {
-    		return next;
     	}
     	
     	private void setNext(Pair n) {
