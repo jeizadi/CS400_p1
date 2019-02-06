@@ -26,6 +26,7 @@ public class DS_My implements DataStructureADT {
     @Override
     public boolean remove(Comparable k) {
     	if(k == null) throw new IllegalArgumentException("null key");
+    	if(this.contains(k) == false) return false; //checks whether the key is in the list and returns false if it isn't
     	Pair current = first;
     	while(current.next != null && current.next.key.compareTo(k) != 0) {
     			current = current.next;
