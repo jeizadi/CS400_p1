@@ -32,6 +32,7 @@ public class DS_My implements DataStructureADT {
     	}
     	if(current.next == null && current.key.compareTo(k) == 0) {
     		current = null;
+    		return true;
     	}
     	else if(current.next == null && current.key.compareTo(k) != 0) {
     		return false;
@@ -49,7 +50,7 @@ public class DS_My implements DataStructureADT {
     	//iterate through the list checking if the keys match with the one given  
     	//return true if one does otherwise return false
     	Pair current = first;
-    	if(k == null) throw new IllegalArgumentException("null key"); //check to see if the key given is null
+    	if(k == null) return false; //check to see if the key given is null
     	while(current != null) { //iterate through list 
     		if(current.key.compareTo(k) == 0) { //check keys to see if they are equal to k
     			return true;
