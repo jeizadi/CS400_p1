@@ -89,6 +89,7 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String,String>> {
 		for(int i = 10; i < 35; i++) {
 			dataStructureInstance.remove(Integer.toString(i));
 		}
+		//if(dataStructureInstance.contains("10") == false) fail("fails");
 		if(dataStructureInstance.size() != 25) fail("fails");
 	}
 	

@@ -1,54 +1,50 @@
 
 public class DS_My implements DataStructureADT {
 
-	private Pair first; //marks the first pair in the list
-	//int size;
+	private KeyPair head; //reference to the head element in the list
+	int size;
 	
     public DS_My() {
-    	first = null;
-    	//size = 0;
+    	head = null;
+    	size = 0;
     }
 
     @Override
     public void insert(Comparable k, Object v) {
-    	Pair current = first;
     	if(k == null) throw new IllegalArgumentException("null key"); //check if key is null
     	if(this.contains(k)) throw new RuntimeException("duplicate key");
-    	if(current == null) {
-    		first = new Pair(k, v);
-    		//size++;
+    	KeyPair current = new KeyPair(k, v);
+    	current.prev = null;
+    	current.next = head;
+    	if(head != null) {
+    		head.prev = current;
     	}
-    	else {
-    		while(current.next != null) {
-    			current = current.next;
-    		}
-    		current.setNext(new Pair(k,v));
-    		//size++;
-    	}
+    	head = current;
+    	size++;
     }
 
     @Override
     public boolean remove(Comparable k) {
     	if(k == null) throw new IllegalArgumentException("null key");
     	if(this.contains(k) == false) return false; //checks whether the key is in the list and returns false if it isn't
-    	Pair current = first;
-    	if(first.key.compareTo(k) == 0) { //checks first value
-    		first = null; 
-    		return true;
-    	}
-    	while(current.next != null) {
-    		if(current.next.key.compareTo(k) == 0) {
-    			current.next = current.next.next;
+    	KeyPair current = head;
+    	if(head == null) return false;
+    	while(current != null) {
+    		if(current.key.compareTo(k) == 0 ) {
+    			if(head == current) {
+    				head = current.next;
+    			}
+    			if(current.next != null) {
+    				current.next.prev = current.prev;
+    			}
+    			if(current.prev != null) {
+    				current.prev.next = current.next;
+    			}
+    			size--;
     			return true;
     		}
     		current = current.next;
-    	}
-    	if(current.next == null) {
-    		if(current.key.compareTo(k) == 0) {
-    			current = current.next;
-    			return true;
-    		}
-    	}
+    	} 
     	return false;
     }
 
@@ -56,7 +52,7 @@ public class DS_My implements DataStructureADT {
     public boolean contains(Comparable k) {
     	//iterate through the list checking if the keys match with the one given  
     	//return true if one does otherwise return false
-    	Pair current = first;
+    	KeyPair current = head;
     	if(k == null) return false; //check to see if the key given is null
     	while(current != null) { //iterate through list 
     		if(current.key.compareTo(k) == 0) { //check keys to see if they are equal to k
@@ -69,7 +65,7 @@ public class DS_My implements DataStructureADT {
 
     @Override
     public Object get(Comparable k) {
-    	Pair current = first;
+    	KeyPair current = head;
     	if(k == null) throw new IllegalArgumentException("null key"); //check to see if the key given is null
     	while(current.next != null) {
     		if(current.key.compareTo(k) == 0) { //check keys to see if they are equal to k
@@ -83,35 +79,36 @@ public class DS_My implements DataStructureADT {
 
     @Override
     public int size() {
-    	Pair current = first;
-    	int size = 0;
-        while(current != null) {
-        	size++;
-        	current = current.next;
-        }
-        return size;
+    	return size;
     }
     
-    //private class Pair that holds key and value pairs as well as reference to next
-    class Pair { 
+    //private class KeyPair that holds key and value KeyPairs as well as reference to next
+    class KeyPair { 
     	private Comparable key;
     	private Object value;
-    	private Pair next;
+    	private KeyPair next;
+    	private KeyPair prev;
     	
-    	private Pair(Comparable key, Object value, Pair next) {
+    	private KeyPair(Comparable key, Object value, KeyPair next, KeyPair previous) {
     		this.key = key;
     		this.value = value;
     		this.next = next;
+    		this.prev = previous;
     	}
     	
-    	private Pair(Comparable key, Object value) {
+    	private KeyPair(Comparable key, Object value) {
     		this.key = key;
     		this.value = value;
     	}
     	
-    	private void setNext(Pair n) {
+    	private void setNext(KeyPair n) {
     		next = n;
     	}
+    	
+    	private void setPrev(KeyPair p) {
+    		prev = p;
+    	}
+    	
     }
 
 }
