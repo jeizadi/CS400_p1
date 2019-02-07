@@ -80,6 +80,27 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String,String>> {
 		}
 	}
 	
+	//insert 50 values, remove 25, get the size
+	@Test
+	void test05_insert_50_remove_25_size_25() {
+		
+	}
+	
+	@Test 
+	void test06_null_key_exception_is_thrown() {
+		try {
+			dataStructureInstance.insert(null, new String("value"));
+		} catch(IllegalArgumentException exception) {}
+	}
+	
+	@Test 
+	void test07_attempt_to_remove_null_key_exception_is_thrown() {
+		try {
+			dataStructureInstance.remove(null);
+		} catch(IllegalArgumentException exception) {}
+	}
+	
+	
 	// TODO: add tests to ensure that you can detect implementation that fail
 	
 	// Tip: consider different numbers of inserts and removes and how different combinations of insert and removes

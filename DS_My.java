@@ -28,20 +28,22 @@ public class DS_My implements DataStructureADT {
     	if(k == null) throw new IllegalArgumentException("null key");
     	if(this.contains(k) == false) return false; //checks whether the key is in the list and returns false if it isn't
     	Pair current = first;
-    	while(current.next != null && current.next.key.compareTo(k) != 0) {
+    	if(first.key.compareTo(k) == 0) { //checks first value
+    		first = null; 
+    		return true;
+    	}
+    	while(current.next != null) {
+    		if(current.key.compareTo(k) == 0) {
     			current = current.next;
+    			return true;
+    		}
+    		current = current.next;
     	}
-    	if(current.next == null && current.key.compareTo(k) == 0) {
-    		current = null;
-    		return true;
-    	}
-    	else if(current.next == null && current.key.compareTo(k) != 0) {
-    		return false;
-    	}
-    	else if(current.next.key.compareTo(k) == 0) {
-    		Pair after = current.next.next;
-    		current.setNext(after);
-    		return true;
+    	if(current.next == null) {
+    		if(current.key.compareTo(k) == 0) {
+    			current = current.next;
+    			return true;
+    		}
     	}
     	return false;
     }
