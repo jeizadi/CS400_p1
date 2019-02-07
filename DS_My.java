@@ -2,9 +2,11 @@
 public class DS_My implements DataStructureADT {
 
 	private Pair first; //marks the first pair in the list
+	//int size;
 	
     public DS_My() {
     	first = null;
+    	//size = 0;
     }
 
     @Override
@@ -14,12 +16,14 @@ public class DS_My implements DataStructureADT {
     	if(this.contains(k)) throw new RuntimeException("duplicate key");
     	if(current == null) {
     		first = new Pair(k, v);
+    		//size++;
     	}
     	else {
     		while(current.next != null) {
     			current = current.next;
     		}
     		current.setNext(new Pair(k,v));
+    		//size++;
     	}
     }
 
@@ -33,8 +37,8 @@ public class DS_My implements DataStructureADT {
     		return true;
     	}
     	while(current.next != null) {
-    		if(current.key.compareTo(k) == 0) {
-    			current = current.next;
+    		if(current.next.key.compareTo(k) == 0) {
+    			current.next = current.next.next;
     			return true;
     		}
     		current = current.next;

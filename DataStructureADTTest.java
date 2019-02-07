@@ -83,7 +83,13 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String,String>> {
 	//insert 50 values, remove 25, get the size
 	@Test
 	void test05_insert_50_remove_25_size_25() {
-		
+		for(int i = 0; i < 50; i++) {
+			dataStructureInstance.insert(Integer.toString(i), Integer.toString(i));
+		}
+		for(int i = 10; i < 35; i++) {
+			dataStructureInstance.remove(Integer.toString(i));
+		}
+		if(dataStructureInstance.size() != 25) fail("fails");
 	}
 	
 	@Test 
@@ -97,10 +103,20 @@ abstract class DataStructureADTTest<T extends DataStructureADT<String,String>> {
 	void test07_attempt_to_remove_null_key_exception_is_thrown() {
 		try {
 			dataStructureInstance.remove(null);
+			fail("no null key excpetion is thrown when attempting to remove a null key");
 		} catch(IllegalArgumentException exception) {}
 	}
 	
-	
+	@Test 
+	void test08_get_returns_correct_value() {
+		dataStructureInstance.insert(new String("key"), new String("value"));
+		dataStructureInstance.insert(new String("key1"), new String("value1"));
+		dataStructureInstance.insert(new String("key2"), new String("value2"));
+		dataStructureInstance.insert(new String("key3"), new String("value3"));
+		dataStructureInstance.insert(new String("key4"), new String("value4"));
+		if(dataStructureInstance.get("key3").compareTo("value3") != 0)
+			fail("get method was excepted to return one value but didn't get the correct one");
+	}
 	// TODO: add tests to ensure that you can detect implementation that fail
 	
 	// Tip: consider different numbers of inserts and removes and how different combinations of insert and removes
